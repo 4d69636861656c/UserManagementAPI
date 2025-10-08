@@ -1,0 +1,103 @@
+@UserManagementAPI_HostAddress = http://localhost:5172
+
+### User Login to get JWT Token
+# @name login
+POST http://localhost:5172/api/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+### Store the token from the login response
+@authToken = {{login.response.body.token}}
+
+### Debug Token
+GET {{UserManagementAPI_HostAddress}}/debug-token
+Authorization: Bearer {{authToken}}
+
+### Get Users with Debug Headers
+GET {{UserManagementAPI_HostAddress}}/api/users
+Authorization: Bearer {{authToken}}
+X-Debug: true
+
+### Get All Users
+GET {{UserManagementAPI_HostAddress}}/api/users/
+Authorization: Bearer {{authToken}}
+
+### Get User by ID
+GET {{UserManagementAPI_HostAddress}}/api/users/4
+
+### Get Users (paginated response)
+GET {{UserManagementAPI_HostAddress}}/api/users?pageNumber=1&pageSize=5
+
+### Get Users by Name
+GET {{UserManagementAPI_HostAddress}}/api/users?name=Alice
+
+### Create New User
+POST {{UserManagementAPI_HostAddress}}/api/users/
+Content-Type: application/json
+
+{
+    "name": "New User",
+    "email": "newuser@example.com",
+    "department": "Engineering"
+}
+
+### Update Existing User
+PUT {{UserManagementAPI_HostAddress}}/api/users/4
+Content-Type: application/json
+
+{
+    "name": "Updated User",
+    "email": "updateduser@example.com",
+    "department": "Engineering"
+}
+
+### Delete User
+DELETE {{UserManagementAPI_HostAddress}}/api/users/4
+
+### Test Validation Error (Invalid Email)
+POST {{UserManagementAPI_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "email": "invalid-email",
+    "department": "IT"
+}
+
+### Test Not Found Error
+GET {{UserManagementAPI_HostAddress}}/api/users/9999
+
+### Test Validation Error (Missing Required Fields)
+POST {{UserManagementAPI_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "name": "Test User"
+}
+
+### Test Concurrent Update Error
+@userId = 1
+# Run these two requests at the same time to simulate a concurrency conflict
+### First concurrent update
+PUT {{UserManagementAPI_HostAddress}}/api/users/{{userId}}
+Content-Type: application/json
+
+{
+    "name": "Updated User 1",
+    "email": "user1@example.com",
+    "department": "IT"
+}
+
+### Second concurrent update
+PUT {{UserManagementAPI_HostAddress}}/api/users/{{userId}}
+Content-Type: application/json
+
+{
+    "name": "Updated User 2",
+    "email": "user2@example.com",
+    "department": "IT"
+}
