@@ -28,16 +28,20 @@ Authorization: Bearer {{authToken}}
 
 ### Get User by ID
 GET {{UserManagementAPI_HostAddress}}/api/users/4
+Authorization: Bearer {{authToken}}
 
 ### Get Users (paginated response)
 GET {{UserManagementAPI_HostAddress}}/api/users?pageNumber=1&pageSize=5
+Authorization: Bearer {{authToken}}
 
 ### Get Users by Name
 GET {{UserManagementAPI_HostAddress}}/api/users?name=Alice
+Authorization: Bearer {{authToken}}
 
 ### Create New User
 POST {{UserManagementAPI_HostAddress}}/api/users/
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "New User",
@@ -48,6 +52,7 @@ Content-Type: application/json
 ### Update Existing User
 PUT {{UserManagementAPI_HostAddress}}/api/users/4
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "Updated User",
@@ -57,10 +62,12 @@ Content-Type: application/json
 
 ### Delete User
 DELETE {{UserManagementAPI_HostAddress}}/api/users/4
+Authorization: Bearer {{authToken}}
 
 ### Test Validation Error (Invalid Email)
 POST {{UserManagementAPI_HostAddress}}/api/users
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "Test User",
@@ -70,10 +77,12 @@ Content-Type: application/json
 
 ### Test Not Found Error
 GET {{UserManagementAPI_HostAddress}}/api/users/9999
+Authorization: Bearer {{authToken}}
 
 ### Test Validation Error (Missing Required Fields)
 POST {{UserManagementAPI_HostAddress}}/api/users
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "Test User"
@@ -85,6 +94,7 @@ Content-Type: application/json
 ### First concurrent update
 PUT {{UserManagementAPI_HostAddress}}/api/users/{{userId}}
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "Updated User 1",
@@ -95,6 +105,7 @@ Content-Type: application/json
 ### Second concurrent update
 PUT {{UserManagementAPI_HostAddress}}/api/users/{{userId}}
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
     "name": "Updated User 2",
